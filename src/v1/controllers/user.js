@@ -2,6 +2,7 @@ const User = require("../models/user");
 const CryptoJS = require("crypto-js");
 const jsonwebtoken = require(jsonwebtoken);
 
+//ユーザー新規作成関数
 const register = async (req, res) => {
   //パスワードの受け取り
   const password = req.body.password;
@@ -56,6 +57,7 @@ const login = async (req, res) => {
 
     user.password = undefined;
 
+    //トークンを発行(24時間まで有効)
     const token = jsonwebtoken.sign({ id: user._id }, process.env.TOKEN_SK, {
       expiresIn: "24h",
     });
