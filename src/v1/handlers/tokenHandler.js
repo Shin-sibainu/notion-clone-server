@@ -22,10 +22,12 @@ const tokenDecode = (req) => {
   }
 };
 
-//トークン認証関数
+//トークン認証関数(ミドルウェアとして利用)
 const verifyToken = async (req, res, next) => {
   const tokenDecoded = tokenDecode(req);
+  //デコード済みのトークンがあれば(=以前ログインor新規作成されたユーザーであれば)
   if (tokenDecoded) {
+    //そのトークンと一致するユーザーを探してくる。
     const user = await User.findById(tokenDecoded, id);
     if (!user) return res.status(401).json("権限がありません");
     req.user = user;

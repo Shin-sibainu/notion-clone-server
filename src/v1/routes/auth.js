@@ -4,6 +4,7 @@ const { body } = require("express-validator");
 const User = require("../models/user");
 const validation = require("../handlers/validation");
 const userController = require("../controllers/user");
+const tokenHandler = require("../handlers/tokenHandler");
 
 //ユーザー新規登録用API
 router.post(
@@ -42,3 +43,6 @@ router.post(
 );
 
 //トークン認証API
+router.post("verify-token", tokenHandler.verifyToken, (req, res) => {
+  res.status(200).json({ user: req.user });
+});
