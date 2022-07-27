@@ -1,9 +1,9 @@
 const User = require("../models/user");
 const CryptoJS = require("crypto-js");
-const jsonwebtoken = require(jsonwebtoken);
+const jsonwebtoken = require("jsonwebtoken");
 
 //ユーザー新規作成関数
-const register = async (req, res) => {
+exports.register = async (req, res) => {
   //パスワードの受け取り
   const password = req.body.password;
 
@@ -23,7 +23,7 @@ const register = async (req, res) => {
   }
 };
 
-const login = async (req, res) => {
+exports.login = async (req, res) => {
   //ユーザーがログインするときに打ち込むそのままの文字列を取得。
   const { username, password } = req.body;
 
@@ -68,5 +68,3 @@ const login = async (req, res) => {
     res.status(500).json(err);
   }
 };
-
-exports.modules = { register, login };

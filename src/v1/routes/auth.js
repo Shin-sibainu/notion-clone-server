@@ -8,7 +8,7 @@ const tokenHandler = require("../handlers/tokenHandler");
 
 //ユーザー新規登録用API
 router.post(
-  "/singup",
+  "/register",
   body("username")
     .isLength({ min: 8 })
     .withMessage("ユーザー名は8文字以上である必要があります。"),
@@ -31,7 +31,7 @@ router.post(
 
 //ログイン用API
 router.post(
-  "login",
+  "/login",
   body("username")
     .isLength({ min: 8 })
     .withMessage("ユーザー名は8文字以上である必要があります。"),
@@ -42,7 +42,9 @@ router.post(
   userController.login
 );
 
-//トークン認証API
-router.post("verify-token", tokenHandler.verifyToken, (req, res) => {
+//トークン認証API(ここが上手く叩けてない)
+router.post("/verify-token", tokenHandler.verifyToken, (req, res) => {
   res.status(200).json({ user: req.user });
 });
+
+module.exports = router;

@@ -1,4 +1,4 @@
-var router = require("express").Router();
+const router = require("express").Router();
 
 /* GET home page. */
 router.use("/auth", require("./auth"));
