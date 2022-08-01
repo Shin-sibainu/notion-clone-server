@@ -10,8 +10,9 @@ exports.register = async (req, res) => {
   try {
     //パスワードの暗号化
     req.body.password = CryptoJS.AES.encrypt(password, process.env.PASS_SK);
-    //ユーザー新規作成
+    //ユーザー新規作成(MongoDBへ保存)
     const user = await User.create(req.body);
+    // console.log(user);
     //トークンの発行(有効期限は24時間まで)
     const token = jsonwebtoken.sign({ id: user._id }, process.env.TOKEN_SK, {
       expiresIn: "24h",
