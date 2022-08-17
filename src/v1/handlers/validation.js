@@ -10,4 +10,5 @@ exports.validate = (req, res, next) => {
   next();
 };
 
+//ObjectIdが有効かどうか
 exports.isObjectId = (value) => mongoose.Types.ObjectId.isValid(value);

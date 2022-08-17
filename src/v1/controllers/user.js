@@ -34,10 +34,12 @@ exports.login = async (req, res) => {
     if (!user) {
       //認証する資格がない。
       res.status(401).json({
-        errors: {
-          param: "username",
-          message: "ユーザー名かパスワードが無効です。",
-        },
+        errors: [
+          {
+            param: "username",
+            msg: "ユーザー名かパスワードが無効です。",
+          },
+        ],
       });
     }
 
@@ -49,10 +51,12 @@ exports.login = async (req, res) => {
     //パスワード適合チェック
     if (decryptedPassword !== password) {
       res.status(401).json({
-        errors: {
-          param: "username",
-          message: "ユーザー名かパスワードが無効です。",
-        },
+        errors: [
+          {
+            param: "username",
+            msg: "ユーザー名かパスワードが無効です。",
+          },
+        ],
       });
     }
 
