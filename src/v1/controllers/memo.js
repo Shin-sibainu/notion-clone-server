@@ -1,4 +1,3 @@
-const { default: memoApi } = require("../../../../client/src/api/memoApi");
 const Memo = require("../models/memo");
 const Section = require("../models/section");
 const Task = require("../models/task");
@@ -79,14 +78,26 @@ exports.update = async (req, res) => {
       } else {
         for (const key in favorites) {
           const element = favorites[key];
-          await element.update({
-            favoritePosition: key,
+          await Memo.findByIdAndUpdate(element.id, {
+            $set: { favoritePosition: key },
           });
         }
       }
     }
     const memo = await Memo.findByIdAndUpdate(memoId, { $set: req.body });
     res.status(200).json(memo);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+};
+
+exports.getFavorites = async (req, res) => {
+  try {
+    const favorites = await Memo.find({
+      user: req.user._id,
+      favorite: true,
+    }).sort("-favoritePosition");
+    res.status(200).json(favorites);
   } catch (err) {
     res.status(500).json(err);
   }

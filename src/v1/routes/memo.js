@@ -12,6 +12,8 @@ router.get("/", tokenHandler.verifyToken, memoController.getAll);
 
 router.put("/", tokenHandler.verifyToken, memoController.updatePosition);
 
+router.get("/favorites", tokenHandler.verifyToken, memoController.getFavorites);
+
 router.get(
   "/:memoId",
   param("memoId").custom((value) => {
@@ -22,6 +24,18 @@ router.get(
   validation.validate,
   tokenHandler.verifyToken,
   memoController.getOne
+);
+
+router.put(
+  "/:memoId",
+  param("memoId").custom((value) => {
+    if (!validation.isObjectId(value)) {
+      return Promise.reject("無効なIDです。");
+    } else return Promise.resolve();
+  }),
+  validation.validate,
+  tokenHandler.verifyToken,
+  memoController.update
 );
 
 module.exports = router;
