@@ -38,4 +38,16 @@ router.put(
   memoController.update
 );
 
+router.delete(
+  "/:memoId",
+  param("memoId").custom((value) => {
+    if (!validation.isObjectId(value)) {
+      return Promise.reject("無効なIDです。");
+    } else return Promise.resolve();
+  }),
+  validation.validate,
+  tokenHandler.verifyToken,
+  memoController.delete
+);
+
 module.exports = router;

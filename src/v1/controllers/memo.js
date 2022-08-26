@@ -19,7 +19,7 @@ exports.getAll = async (req, res) => {
   try {
     //今ログインしているユーザーIDから、それに紐づいた📝を全て取り出している。
     const memo = await Memo.find({ user: req.user._id }).sort("-position");
-    console.log(memo);
+    // console.log(memo);
     res.status(200).json(memo);
   } catch {
     res.status(500).json(err);
@@ -98,6 +98,18 @@ exports.getFavorites = async (req, res) => {
       favorite: true,
     }).sort("-favoritePosition");
     res.status(200).json(favorites);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+};
+
+exports.delete = async (req, res) => {
+  const { memoId } = req.params;
+  //メモの削除
+  try {
+    const deletedMemo = await Memo.deleteOne({ _id: memoId });
+    console.log(deletedMemo);
+    res.status(200).json("メモを削除しました");
   } catch (err) {
     res.status(500).json(err);
   }
